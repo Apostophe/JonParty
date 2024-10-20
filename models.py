@@ -18,3 +18,5 @@ class Question(db.Model):
     answer = db.Column(db.String(100), nullable=False)
     points = db.Column(db.Integer, nullable=False)
     theme_id = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=False)
+    media_type = db.Column(db.String(50), nullable=True)  # e.g., 'image', 'video', 'audio'
+    media_path = db.Column(db.String(255), nullable=True)  # File path for media

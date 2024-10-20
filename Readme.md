@@ -102,12 +102,9 @@ Request Body:
     {
       "question": "What is the capital of France?",
       "answer": "Paris",
-      "points": 100
-    },
-    {
-      "question": "Which continent is the largest by land area?",
-      "answer": "Asia",
-      "points": 200
+      "points": 100,
+      "media_type": "image",  // optional: 'image', 'audio', 'video'
+      "media_path": "uploads/paris.jpg" // optional: path to media file
     }
   ]
 }
@@ -135,17 +132,29 @@ Response:
       "id": 1,
       "question": "What is the chemical symbol for water?",
       "answer": "H2O",
-      "points": 100
-    },
-    {
-      "id": 2,
-      "question": "What planet is known as the Red Planet?",
-      "answer": "Mars",
-      "points": 200
+      "points": 100,
+      "media_type": "image",
+      "media_path": "uploads/water.jpg"
     }
   ]
 }
 ```
+
+### POST `/admin/upload-media`
+
+Description: Uploads a media file.
+
+Request: Form-data with a file field named file.
+
+Response:
+
+```json
+{
+  "message": "File uploaded successfully",
+  "file_path": "uploads/your_file.jpg"
+}
+```
+
 
 ### GET `/themes`
 

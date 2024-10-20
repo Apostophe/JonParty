@@ -2,12 +2,15 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from models import db, Theme, Question
 
+import os
+
+
 app = Flask(__name__)
 CORS(app)
-
-# Configuration de la base de données SQLite
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jeopardy.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'uploads/'  # Folder to store uploaded media
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+db.init_app(app)
 
 # Initialiser la base de données avec l'application
 db.init_app(app)
@@ -25,41 +28,41 @@ def add_theme_only():
     db.session.commit()
     return jsonify({"message": "Thème ajouté avec succès", "theme_id": new_theme.id}), 201
 
-# Route pour ajouter une ou plusieurs questions à un thème existant
 @app.route('/admin/add-questions/<int:theme_id>', methods=['POST'])
 def add_questions(theme_id):
-    theme = Theme.query.get(theme_id)
-    if not theme:
-        return jsonify({"error": "Thème non trouvé"}), 404
-
+    theme = Theme.query.get_or_404(theme_id)
     data = request.get_json()
-    for q in data['questions']:
-        new_question = Question(
-            question=q['question'],
-            answer=q['answer'],
-            points=q['points'],
-            theme_id=theme_id
+
+    questions = []
+    for item in data['questions']:
+        question = Question(
+            question=item['question'],
+            answer=item['answer'],
+            points=item['points'],
+            theme=theme,
+            media_type=item.get('media_type'),  # Get media type if provided
+            media_path=item.get('media_path')   # Get media path if provided
         )
-        db.session.add(new_question)
+        questions.append(question)
 
+    db.session.add_all(questions)
     db.session.commit()
-    return jsonify({"message": "Questions ajoutées avec succès au thème"}), 201
+    return jsonify(message="Questions ajoutées avec succès au thème"), 201
 
-# Route pour récupérer toutes les questions d'un thème spécifique par ID
+
 @app.route('/theme/<int:theme_id>/questions', methods=['GET'])
-def get_theme_questions(theme_id):
-    theme = Theme.query.get(theme_id)
-    if not theme:
-        return jsonify({"error": "Thème non trouvé"}), 404
-
-    questions = [{
-        "id": q.id,
-        "question": q.question,
-        "answer": q.answer,
-        "points": q.points
-    } for q in theme.questions]
-
-    return jsonify({"theme": theme.title, "questions": questions})
+def get_questions(theme_id):
+    theme = Theme.query.get_or_404(theme_id)
+    questions = Question.query.filter_by(theme_id=theme_id).all()
+    questions_list = [{
+        'id': q.id,
+        'question': q.question,
+        'answer': q.answer,
+        'points': q.points,
+        'media_type': q.media_type,  # Include media type
+        'media_path': q.media_path    # Include media path
+    } for q in questions]
+    return jsonify(theme=theme.title, questions=questions_list)
 
 # Route pour récupérer tous les thèmes avec leurs questions
 @app.route('/themes', methods=['GET'])
@@ -76,6 +79,20 @@ def get_themes():
         }
         result.append(theme_data)
     return jsonify(result)
+
+@app.route('/admin/upload-media', methods=['POST'])
+def upload_media():
+    if 'file' not in request.files:
+        return jsonify({'message': 'No file part'}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'message': 'No selected file'}), 400
+
+    # Save the file
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(file_path)
+
+    return jsonify({'message': 'File uploaded successfully', 'file_path': file_path}), 201
 
 # Route pour récupérer tous les thèmes avec leurs IDs
 @app.route('/themes/ids', methods=['GET'])
