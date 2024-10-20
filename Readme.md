@@ -30,8 +30,8 @@ This is a backend API built with Flask and SQLite to host and manage Jeopardy-st
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/jeopardy-backend.git
-   cd jeopardy-backend
+   git clone https://github.com/Apostophe/JonParty.git
+   cd JonParty
    ```
 
 2. Create a virtual environment (optional but recommended):
