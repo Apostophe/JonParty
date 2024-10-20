@@ -32,67 +32,71 @@ This is a backend API built with Flask and SQLite to host and manage Jeopardy-st
    ```bash
    git clone https://github.com/your-username/jeopardy-backend.git
    cd jeopardy-backend
+   ```
 
-    Create a virtual environment (optional but recommended):
+2. Create a virtual environment (optional but recommended):
 
-    bash
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
 
-python3 -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+3. Install the dependencies:
 
-Install the dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-bash
+4. Run the Flask app:
 
-pip install -r requirements.txt
-
-Run the Flask app:
-
-bash
-
+    ```bash
     python app.py
+    ```
 
-    The server will run at http://127.0.0.1:5000.
+    The server will run at `http://localhost:5000`.
 
-Running the App
+
+## Running the App
 
 After installation, you can run the app by executing:
 
-bash
+```bash
 
 python app.py
 
-This will start the server, and you can interact with the API through http://localhost:5000.
-API Endpoints
-POST /admin/add-theme-only
+```
+
+This will start the server, and you can interact with the API through `http://localhost:5000`.
+
+## API Endpoints
+### POST `/admin/add-theme-only`
 
 Description: Adds a new theme without any questions.
 
 Request Body:
 
-json
-
+```json
 {
   "title": "Science"
 }
+```
 
 Response:
 
-json
-
+```json
 {
   "message": "Thème ajouté avec succès",
   "theme_id": 1
 }
+```
 
-POST /admin/add-questions/<theme_id>
+### POST `/admin/add-questions/<theme_id>`
 
 Description: Adds one or multiple questions to an existing theme by its ID.
 
 Request Body:
 
-json
-
+```json
 {
   "questions": [
     {
@@ -107,23 +111,23 @@ json
     }
   ]
 }
+```
 
 Response:
 
-json
-
+```json
 {
   "message": "Questions ajoutées avec succès au thème"
 }
+```
 
-GET /theme/<theme_id>/questions
+### GET `/theme/<theme_id>/questions`
 
 Description: Retrieves all questions for a specific theme by its ID.
 
 Response:
 
-json
-
+```json
 {
   "theme": "Science",
   "questions": [
@@ -141,15 +145,15 @@ json
     }
   ]
 }
+```
 
-GET /themes
+### GET `/themes`
 
 Description: Retrieves all themes with their corresponding questions.
 
 Response:
 
-json
-
+```json
 [
   {
     "title": "Science",
@@ -178,15 +182,15 @@ json
     ]
   }
 ]
+```
 
-GET /themes/ids
+### GET `/themes/ids`
 
 Description: Retrieves all themes with their corresponding IDs.
 
 Response:
 
-json
-
+```json
 [
   {
     "id": 1,
@@ -197,22 +201,23 @@ json
     "title": "Geography"
   }
 ]
+```
 
-Models
-Theme
+## Models
+### Theme
 
-The Theme model represents a theme (or category) in the Jeopardy game.
+The `Theme` model represents a theme (or category) in the Jeopardy game.
 
-    id: Integer, primary key, auto-increment.
-    title: String, the name of the theme.
-    questions: A relationship to the Question model (one-to-many).
+- id: Integer, primary key, auto-increment.
+- title: String, the name of the theme.
+- questions: A relationship to the `Question` model (one-to-many).
 
-Question
+### Question
 
-The Question model represents a question under a specific theme.
+The `Question` model represents a question under a specific theme.
 
-    id: Integer, primary key, auto-increment.
-    question: String, the content of the question.
-    answer: String, the correct answer to the question.
-    points: Integer, the point value for the question.
-    theme_id: Foreign key linking to the Theme model.
+- id: Integer, primary key, auto-increment.
+- question: String, the content of the question.
+- answer: String, the correct answer to the question.
+- points: Integer, the point value for the question.
+- theme_id: Foreign key linking to the `Theme` model.
