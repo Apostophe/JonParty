@@ -15,7 +15,7 @@ This is a backend API built with Flask and SQLite to host and manage Jeopardy-st
 - [Installation](#installation)
 - [Running the App](#running-the-app)
 - [API Endpoints](#api-endpoints)
-  - [POST `/admin/add-theme-only`](#post-admintheme-only)
+  - [POST `/admin/add-theme-only`](#post-adminadd-theme-only)
   - [POST `/admin/add-questions/<theme_id>`](#post-adminadd-questionstheme_id)
   - [GET `/theme/<theme_id>/questions`](#get-themetheme_idquestions)
   - [GET `/themes`](#get-themes)
