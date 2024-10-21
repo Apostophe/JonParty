@@ -8,9 +8,9 @@ import os
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jeopardy.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads/'  # Folder to store uploaded media
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-db.init_app(app)
 
 # Initialiser la base de données avec l'application
 db.init_app(app)
