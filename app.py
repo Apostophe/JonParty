@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from models import db, Theme, Question
+from quiz import *
 
 import os
 
@@ -101,5 +102,17 @@ def get_themes_with_ids():
     result = [{"id": theme.id, "title": theme.title} for theme in themes]
     return jsonify(result)
 
+@app.route('/create-game', methods=['GET'])
+def get_game():
+    quiz = generateQuiz()
+    return jsonify(quiz)
+
+@app.route('/get-game', methods=['GET'])
+def get_game():
+    if 'seed' not in request.seed:
+        return jsonify({'message': 'No seed part'}), 400
+    
+    quiz = generateQuiz(request['seed'])
+    return jsonify(quiz)
 if __name__ == "__main__":
     app.run(debug=True)
