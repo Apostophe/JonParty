@@ -1,0 +1,11 @@
+@forward 'vuetify/settings' with (
+  // general
+  $color-pack: false,
+  // fonts
+  $body-font-family: ('Poppins', Arial, Helvetica, sans-serif),
+  // buttons
+  $button-text-transform: none,
+  $button-text-letter-spacing: normal,
+  // lists
+  $list-subheader-inset-padding-start: 36px
+);

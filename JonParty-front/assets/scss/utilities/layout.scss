@@ -1,0 +1,16 @@
+.wrapper {
+  width: 90vw;
+  width: clamp(16rem, 90vw, 70rem);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.09rem, 1rem + 0.47vw, 1.33rem);
+  padding-right: clamp(1.09rem, 1rem + 0.47vw, 1.33rem);
+  position: relative;
+}
+
+// Taken from Andy Bell: https://piccalil.li/blog/creating-a-full-bleed-css-utility
+// A component that breaks out of the max-width of a parent
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}

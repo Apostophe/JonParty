@@ -1,0 +1,99 @@
+@font-face {
+  font-display: swap;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/poppins-v21-latin-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/poppins-v21-latin-500.woff2') format('woff2');
+}
+
+// Curated CSS Reset taken from https://piccalil.li/blog/a-more-modern-css-reset/
+
+// Prevent font size inflation
+html {
+  /* stylelint-disable */
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  /* stylelint-enable */
+  text-size-adjust: none;
+}
+
+body {
+  color: $dark-grey;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+// Remove default margin in favour of better control in authored CSS
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin-block-end: 0;
+}
+
+// Set shorter line heights on headings and interactive elements
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+
+// Inherit fonts for inputs and buttons
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+// Make images easier to work with
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+// Anything that has been anchored to should have extra scroll margin
+:target {
+  scroll-margin-block: 5ex;
+}
+
+// End of Reset
+
+// v-btn and v-list-item are already styled, so we don't want to modify anything in those cases
+a:not(.v-btn, .v-list-item) {
+  color: currentcolor;
+  text-decoration: none;
+
+  &:focus {
+    outline: 1px dotted $primary;
+    outline-offset: 2px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
